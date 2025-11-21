@@ -6,7 +6,7 @@ A lightweight, customizable toast notification library with beautiful animations
 
 - 🎨 Beautiful, smooth animations
 - 🔧 Fully customizable
-- 📦 Lightweight (no dependencies)
+- ✨ Zero Dependencies
 - ⚡ Fast and performant
 - 🎯 Promise support
 - 🎭 Multiple positions
@@ -15,11 +15,14 @@ A lightweight, customizable toast notification library with beautiful animations
 
 ## Installation
 
-Simply include the CSS and JavaScript files in your HTML:
+Simply include the CSS and JavaScript files from the [GitHub repository](https://github.com/TarunPatil001/hot-toast) via jsDelivr CDN in your HTML:
 
 ```html
-<link rel="stylesheet" href="toast.css">
-<script src="toast.js"></script>
+<!-- Add to your <head> section -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.0.0/lib/toast.css">
+
+<!-- Add before closing </body> tag -->
+<script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.0.0/lib/toast.js"></script>
 ```
 
 ## Usage

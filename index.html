@@ -1,531 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hot Toast</title>
-    <link rel="stylesheet" href="toast.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0f172a;
-            min-height: 100vh;
-            padding: 0;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.3), transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.2), transparent 50%);
-            z-index: 0;
-        }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .header {
-            padding: 60px 40px;
-            text-align: center;
-            color: white;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .header h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.02em;
-        }
-        
-        .header p {
-            font-size: 1.25rem;
-            color: #cbd5e1;
-            font-weight: 400;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 6px 12px;
-            background: rgba(99, 102, 241, 0.2);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 20px;
-            font-size: 0.875rem;
-            color: #a5b4fc;
-            margin-top: 16px;
-            font-weight: 500;
-        }
-        
-        .content {
-            display: grid;
-            grid-template-columns: 500px 1fr;
-            flex: 1;
-            gap: 0;
-            background: rgba(15, 23, 42, 0.5);
-            backdrop-filter: blur(20px);
-            overflow: hidden;
-        }
-        
-        .demo-section {
-            padding: 48px;
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .code-section {
-            padding: 48px;
-            background: rgba(15, 23, 42, 0.8);
-            color: #e2e8f0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .code-wrapper {
-            overflow-y: auto;
-            flex: 1;
-            padding-right: 8px;
-        }
-        
-        .code-wrapper::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .code-wrapper::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-        
-        .code-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-        
-        .code-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .buttons-wrapper {
-            overflow-y: auto;
-            flex: 1;
-            padding-right: 8px;
-        }
-        
-        .buttons-wrapper::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .buttons-wrapper::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .buttons-wrapper::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 3px;
-        }
-        
-        .buttons-wrapper::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .section-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 32px;
-            color: #f1f5f9;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .btn-group {
-            margin-bottom: 32px;
-            flex-shrink: 0;
-        }
-        
-        .btn-group:last-child {
-            margin-bottom: 0;
-        }
-        
-        .btn-group h3 {
-            font-size: 0.813rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #64748b;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-group h3::before {
-            content: '';
-            width: 3px;
-            height: 14px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 2px;
-        }
-        
-        .code-block {
-            margin-bottom: 24px;
-            flex-shrink: 0;
-        }
-        
-        .code-block:last-child {
-            margin-bottom: 0;
-        }
-        
-        .btn-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        button {
-            padding: 12px 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            background: rgba(51, 65, 85, 0.5);
-            color: #e2e8f0;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-        
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        button:hover::before {
-            opacity: 1;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border-color: #059669;
-            color: white;
-        }
-        
-        .btn-success:hover {
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
-        }
-        
-        .btn-error {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            border-color: #dc2626;
-            color: white;
-        }
-        
-        .btn-error:hover {
-            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
-        }
-        
-        .btn-loading {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            border-color: #2563eb;
-            color: white;
-        }
-        
-        .btn-loading:hover {
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
-        }
-        
-        .btn-dismiss {
-            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-            border-color: #4b5563;
-            color: white;
-        }
-        
-        .btn-dismiss:hover {
-            box-shadow: 0 8px 24px rgba(107, 114, 128, 0.4);
-        }
-        
-        pre {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 24px;
-            border-radius: 12px;
-            overflow-x: auto;
-            font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
-            font-size: 13px;
-            line-height: 1.8;
-            margin-bottom: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        .code-title {
-            font-size: 0.938rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .code-title::before {
-            content: '▸';
-            color: #8b5cf6;
-            font-size: 1.2rem;
-        }
-        
-        .keyword { color: #c084fc; font-weight: 600; }
-        .string { color: #86efac; }
-        .function { color: #60a5fa; }
-        .comment { color: #64748b; font-style: italic; }
-        .property { color: #fbbf24; }
-        
-        #directionStatus {
-            font-weight: 600;
-            color: #a5b4fc;
-        }
-        
-        @media (max-width: 1024px) {
-            .content {
-                grid-template-columns: 1fr;
-                grid-template-rows: 1fr 1fr;
-            }
-            
-            .demo-section {
-                border-right: none;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-            
-            .header h1 {
-                font-size: 3rem;
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .header {
-                padding: 40px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .demo-section,
-            .code-section {
-                padding: 24px;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+    <title>Hot Toast - Smoking hot Notifications</title>
+
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="lib/toast.css">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<script src="toast.js"></script>
+        <nav class="nav">
+        <a href="index.html" class="nav-logo text-uppercase">
+            <i class="bi bi-fire"></i> Hot Toast
+        </a>
+        <div class="nav-links">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                <i class="bi bi-moon-stars"></i>
+            </button>
+            <a href="https://github.com/TarunPatil001/hot-toast" target="_blank" class="github-btn">
+                <i class="bi bi-github"></i> GitHub
+            </a>
+        </div>
+    </nav>
 
-<div class="container">
-    <div class="header">
-        <h1>🔥 Hot Toast</h1>
-        <p>Beautiful, lightweight toast notifications for modern web applications</p>
-        <span class="badge">✨ Zero Dependencies</span>
-    </div>
-    
-    <div class="content">
-        <div class="demo-section">
-            <div class="section-title">📋 Interactive Demo</div>
-            
-            <div class="buttons-wrapper">
+    <div class="container">
+        <div class="hero">
+            <h1 class="text-capitalize"><i class="bi bi-fire"></i> Hot Toast</h1>
+            <p class="subtitle">Smoking hot Notifications for Vanilla JavaScript</p>
+            <button
+                onclick="if(typeof toast !== 'undefined') { toast('Test Toast!'); } else { alert('Toast not loaded'); }"
+                class="btn-primary">Test
+                Toast</button>
+        </div>
+
+        <div class="installation">
+            <div class="installation-title">Installation</div>
+            <div class="code-snippet">
+                <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.0.0/lib/toast.css"&gt;</code><br>
+                <code>&lt;script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.0.0/lib/toast.js"&gt;&lt;/script&gt;</code>
+            </div>
+        </div>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>Basic Types</h3>
                 <div class="btn-group">
-                    <h3>Basic Types</h3>
-                    <div class="btn-row">
-                        <button onclick="toast('Hello World!')">Default</button>
-                        <button class="btn-success" onclick="toast.success('Success!')">✓ Success</button>
-                        <button class="btn-error" onclick="toast.error('Error occurred!')">✕ Error</button>
-                        <button class="btn-loading" onclick="toast.loading('Loading...')">⟳ Loading</button>
-                    </div>
+                    <button onclick="showCodeAndRun(this, 'default')">Default</button>
+                    <button class="btn-success" onclick="showCodeAndRun(this, 'success')">✓ Success</button>
+                    <button class="btn-error" onclick="showCodeAndRun(this, 'error')">✕ Error</button>
                 </div>
-                
+            </div>
+
+            <div class="demo-card">
+                <h3>Custom Options</h3>
                 <div class="btn-group">
-                    <h3>Custom Options</h3>
-                    <div class="btn-row">
-                        <button onclick="toast('Good Job!', {icon: '👏'})">👏 Custom Icon</button>
-                        <button onclick="toast('Multi-line\nToast\nMessage')">Multi-line</button>
-                        <button onclick="toast('Custom Style', {style: 'background: #333; color: #fff;'})">Custom Style</button>
-                    </div>
+                    <button onclick="showCodeAndRun(this, 'customIcon')">👏 Custom Icon</button>
+                    <button onclick="showCodeAndRun(this, 'multiline')">Multi-line Toast</button>
+                    <button onclick="showCodeAndRun(this, 'customStyle')">Custom Style</button>
+                    <button onclick="showCodeAndRun(this, 'duration')">Custom Duration</button>
                 </div>
-                
+            </div>
+
+            <div class="demo-card">
+                <h3>Position</h3>
                 <div class="btn-group">
-                    <h3>Position</h3>
-                    <div class="btn-row">
-                        <button onclick="changePosition('top-left')">⬉ Top Left</button>
-                        <button onclick="changePosition('top-center')">⬆ Top Center</button>
-                        <button onclick="changePosition('top-right')">⬈ Top Right</button>
-                        <button onclick="changePosition('bottom-left')">⬋ Bottom Left</button>
-                        <button onclick="changePosition('bottom-center')">⬇ Bottom Center</button>
-                        <button onclick="changePosition('bottom-right')">⬊ Bottom Right</button>
-                    </div>
+                    <button onclick="showCodeAndRun(this, 'topLeft')">⬉ Top Left</button>
+                    <button onclick="showCodeAndRun(this, 'topCenter')">⬆ Top Center</button>
+                    <button onclick="showCodeAndRun(this, 'topRight')">⬈ Top Right</button>
+                    <button onclick="showCodeAndRun(this, 'bottomLeft')">⬋ Bottom Left</button>
+                    <button onclick="showCodeAndRun(this, 'bottomCenter')">⬇ Bottom Center</button>
+                    <button onclick="showCodeAndRun(this, 'bottomRight')">⬊ Bottom Right</button>
                 </div>
-                
+            </div>
+
+            <div class="demo-card">
+                <h3>Promise Handling</h3>
                 <div class="btn-group">
-                    <h3>Promise Handling</h3>
-                    <div class="btn-row">
-                        <button onclick="testPromise()">🔄 Test Promise</button>
-                    </div>
+                    <button onclick="showCodeAndRun(this, 'promise')">🔄 Test Promise</button>
                 </div>
-                
+            </div>
+
+            <div class="demo-card">
+                <h3>Configuration</h3>
                 <div class="btn-group">
-                    <h3>Stack Direction</h3>
-                    <div class="btn-row">
-                        <button onclick="toggleDirection()">⇅ Toggle (<span id="directionStatus">Normal</span>)</button>
-                    </div>
-                </div>
-                
-                <div class="btn-group">
-                    <h3>Controls</h3>
-                    <div class="btn-row">
-                        <button class="btn-dismiss" onclick="toast.dismiss()">✕ Dismiss All</button>
-                    </div>
+                    <button onclick="showCodeAndRun(this, 'toggleDirection')">⇅ Toggle Direction (<span
+                            id="directionStatus">Normal</span>)</button>
+                    <button onclick="showCodeAndRun(this, 'dismiss')">✕ Dismiss All</button>
                 </div>
             </div>
         </div>
-        
-        <div class="code-section">
-            <div class="section-title">💻 Code Examples</div>
-            
-            <div class="code-wrapper">
-                <div class="code-block">
-                    <div class="code-title">Basic Usage</div>
-                    <pre><span class="function">toast</span>(<span class="string">'Hello World!'</span>);
-<span class="function">toast.success</span>(<span class="string">'Success!'</span>);
-<span class="function">toast.error</span>(<span class="string">'Error!'</span>);
-<span class="function">toast.loading</span>(<span class="string">'Loading...'</span>);</pre>
-                </div>
-                
-                <div class="code-block">
-                    <div class="code-title">Custom Options</div>
-                    <pre><span class="function">toast</span>(<span class="string">'Good Job!'</span>, {
-    <span class="property">icon</span>: <span class="string">'👏'</span>,
-    <span class="property">duration</span>: <span class="keyword">5000</span>,
-    <span class="property">style</span>: <span class="string">'background: #333; color: #fff;'</span>
-});</pre>
-                </div>
-                
-                <div class="code-block">
-                    <div class="code-title">Promise Handling</div>
-                    <pre><span class="keyword">const</span> myPromise = <span class="function">fetch</span>(<span class="string">'/api/data'</span>);
 
-<span class="function">toast.promise</span>(myPromise, {
-    <span class="property">loading</span>: <span class="string">'Loading...'</span>,
-    <span class="property">success</span>: <span class="string">'Data loaded!'</span>,
-    <span class="property">error</span>: <span class="string">'Failed to load!'</span>
-});</pre>
-                </div>
-                
-                <div class="code-block">
-                    <div class="code-title">Configuration</div>
-                    <pre><span class="function">toast.config</span>({
-    <span class="property">position</span>: <span class="string">'top-center'</span>,
-    <span class="property">duration</span>: <span class="keyword">4000</span>,
-    <span class="property">maxToasts</span>: <span class="keyword">5</span>,
-    <span class="property">reverseOrder</span>: <span class="keyword">false</span>
-});</pre>
-                </div>
-                
-                <div class="code-block">
-                    <div class="code-title">Dismiss Toasts</div>
-                    <pre><span class="keyword">const</span> id = <span class="function">toast</span>(<span class="string">'Hello'</span>);
-<span class="function">toast.dismiss</span>(id);  <span class="comment">// Dismiss specific</span>
-<span class="function">toast.dismiss</span>();    <span class="comment">// Dismiss all</span></pre>
-                </div>
+        <div class="code-display">
+            <div class="code-display-header">
+                <div class="code-display-title">Code Example</div>
+                <button class="copy-btn" onclick="copyCode()">📋 Copy</button>
+            </div>
+            <div class="code-display-content" id="codeContent">
+                <div class="placeholder-text">Click any button above to see the code</div>
             </div>
         </div>
-    </div>
-</div>
 
-<script>
-    let isReversed = false;
-    
-    // Demo function for promise handling
-    function testPromise() {
-        const promise = new Promise((resolve) => {
-            setTimeout(resolve, 2000);
-        });
-        
-        toast.promise(promise, {
-            loading: 'Loading data...',
-            success: 'Data loaded successfully!',
-            error: 'Failed to load data!'
-        });
-    }
-    
-    // Change toast position
-    function changePosition(position) {
-        toast.config({ position: position });
-        toast.success('Position changed to: ' + position);
-    }
-    
-    // Toggle stack direction
-    function toggleDirection() {
-        isReversed = !isReversed;
-        toast.config({ reverseOrder: isReversed });
-        document.getElementById('directionStatus').textContent = isReversed ? 'Reversed' : 'Normal';
-        toast.success(isReversed ? 'New toasts will appear at bottom' : 'New toasts will appear at top');
-    }
-</script>
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🎨</div>
+                <h4>Beautiful</h4>
+                <p>Smooth animations and modern design out of the box</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✨</div>
+                <h4>Zero Dependencies</h4>
+                <p>Pure JavaScript with no external dependencies</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h4>Fast & Lightweight</h4>
+                <p>Optimized for performance with minimal footprint</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h4>Promise Support</h4>
+                <p>Handle async operations with ease</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with ❤️ by <a href="https://github.com/TarunPatil001" target="_blank" class="footer-link">TarunPatil001</a></p>
+        </footer>
+    </div>
+
+    <script src="lib/toast.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
