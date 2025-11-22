@@ -49,6 +49,8 @@
     left: 0;
     right: 0;
     display: flex;
+    align-items: flex-start; /* Prevent child from collapsing to 0 height */
+    min-height: 0; /* Fix for Firefox flexbox */
     overflow: visible;
     transition: max-height var(--toast-animation-duration) var(--toast-ease-in-out),
                 margin-bottom var(--toast-animation-duration) var(--toast-ease-in-out),
@@ -56,7 +58,6 @@
                 transform var(--toast-animation-duration) var(--toast-ease-in-out);
     pointer-events: none;
     transform-origin: top center;
-    will-change: max-height, margin-bottom, transform;
     z-index: 1;
 }
 
@@ -80,7 +81,7 @@
     z-index: 6;
 }
 
-.toast-wrapper-entering {
+/* .toast-wrapper-entering {
     animation: wrapper-slide-in var(--toast-animation-duration) var(--toast-ease-in-out) forwards;
 }
 
@@ -93,7 +94,7 @@
         opacity: 1;
         transform: scale(1) translateY(0);
     }
-}
+} */
 
 .toast-wrapper > * {
     pointer-events: auto;
@@ -117,16 +118,15 @@
 
 /* Toast Item Styles - Exact replica of react-hot-toast */
 .toast-item {
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     background: var(--toast-bg);
     color: var(--toast-text);
     line-height: 1.3;
-    will-change: transform;
     box-shadow: var(--toast-shadow);
     max-width: var(--toast-max-width);
     min-width: auto; 
-    min-height: fit-content;
     pointer-events: auto;
     padding: var(--toast-padding);
     border-radius: var(--toast-border-radius);
@@ -390,25 +390,13 @@
 }
 
 @media (max-width: 480px) {
-    .toast-container.top-left, .toast-container.bottom-left {
-        left: 16px;
-        right: 15%;
+    .toast-container.top-center {
+        left: 0;
+        right: 0;
         transform: none;
     }
 
-    .toast-container.top-right, .toast-container.bottom-right {
-        left: 15%;
-        right: 16px;
-        transform: none;
-    }
-
-    .toast-container.top-center, .toast-container.bottom-center {
-        left: 10%;
-        right: 10%;
-        transform: none;
-    }
-
-    .toast-container.top-center .toast-item, .toast-container.bottom-center .toast-item {
-        max-width: var(--toast-max-width);
+    .toast-container.top-center .toast-item {
+        max-width: 215px;
     }
 }
