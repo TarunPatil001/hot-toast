@@ -15,6 +15,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="lib/toast.css">
     <link rel="stylesheet" href="style.css">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5Y7G45LL6P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5Y7G45LL6P');
+    </script>
 </head>
 
 <body>
@@ -136,6 +145,15 @@
             </div>
         </div>
 
+        <!-- Visitor Counter -->
+        <div class="visitor-counter">
+            <div class="counter-content">
+                <span class="counter-icon">🔥</span>
+                <span class="counter-text">Toasted:</span>
+                <div class="counter-digits" id="visitor-count"></div>
+            </div>
+        </div>
+
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="footer-brand">
@@ -167,6 +185,85 @@
 
     <script src="lib/toast.js"></script>
     <script src="script.js"></script>
+    
+    <!-- Visitor Counter Script (Firebase Realtime) -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBV-QqVOlNTTGYWn7zjXNuZZ39ScilWJ9M",
+            authDomain: "hot-toast-d95ae.firebaseapp.com",
+            databaseURL: "https://hot-toast-d95ae-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "hot-toast-d95ae",
+            storageBucket: "hot-toast-d95ae.firebasestorage.app",
+            messagingSenderId: "117052661206",
+            appId: "1:117052661206:web:2f4b2e04e645f495945877",
+            measurementId: "G-X64R5V8BE1"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const counterRef = ref(db, 'visitors');
+
+        // Listen for toast creation events and increment counter
+        window.addEventListener('hot-toast:created', () => {
+            runTransaction(counterRef, (currentValue) => {
+                return (currentValue || 0) + 1;
+            });
+        });
+
+        // Listen for updates in real-time
+        onValue(counterRef, (snapshot) => {
+            const count = snapshot.val() || 0;
+            displayCounter(count);
+        });
+
+        function displayCounter(count) {
+            const counterElement = document.getElementById('visitor-count');
+            // Pad with zeros to make it 6 digits (e.g., 001247)
+            const digits = count.toString().padStart(8, '0').split('');
+            counterElement.innerHTML = '';
+            
+            digits.forEach((digit, index) => {
+                const digitBox = document.createElement('div');
+                digitBox.className = 'digit-box';
+                
+                const digitStrip = document.createElement('div');
+                digitStrip.className = 'digit-strip';
+                
+                // Create numbers 0-9
+                for (let i = 0; i <= 9; i++) {
+                    const number = document.createElement('div');
+                    number.className = 'digit-number';
+                    number.textContent = i;
+                    digitStrip.appendChild(number);
+                }
+                
+                digitBox.appendChild(digitStrip);
+                counterElement.appendChild(digitBox);
+                
+                const targetDigit = parseInt(digit);
+                
+                // Initial position to ensure animation even for 0
+                // We start at 9 (bottom) so 0 has a long scroll
+                // Exception: If target is 9, we start at 0 so it scrolls too
+                const initialY = targetDigit === 9 ? 0 : -576;
+                digitStrip.style.transform = `translateY(${initialY}px)`;
+                
+                // Trigger animation after a small delay
+                setTimeout(() => {
+                    // Randomize duration slightly for organic feel
+                    const duration = 2 + (index * 0.2);
+                    digitStrip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.9, 0.3, 1)`;
+                    digitStrip.style.transform = `translateY(-${targetDigit * 64}px)`;
+                }, 100);
+            });
+        }
+    </script>
 
 </body>
 
