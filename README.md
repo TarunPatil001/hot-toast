@@ -19,10 +19,10 @@ Simply include the CSS and JavaScript files from the [GitHub repository](https:/
 
 ```html
 <!-- Add to your <head> section -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.1.0/lib/toast.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.2.0/lib/toast.css">
 
 <!-- Add before closing </body> tag -->
-<script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.1.0/lib/toast.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.2.0/lib/toast.js"></script>
 ```
 
 ## Usage
