@@ -10,6 +10,8 @@ const codeExamples = {
     default: "toast('Hello World!');",
     success: "toast.success('Success!');",
     error: "toast.error('Error occurred!');",
+    warning: "toast.warning('Warning message!');",
+    info: "toast.info('Info message!');",
     loading: "toast.loading('Loading...');",
     customIcon: "toast('Good Job!', { icon: '👏' });",
     multiline: "toast('Multi-line\\nToast\\nMessage');",
@@ -81,6 +83,12 @@ function executeToast(type) {
             break;
         case 'error':
             toast.error('Error occurred!');
+            break;
+        case 'warning':
+            toast.warning('Warning message!');
+            break;
+        case 'info':
+            toast.info('Info message!');
             break;
         case 'loading':
             toast.loading('Loading...');
