@@ -38,18 +38,25 @@
 }
 
 [data-theme="dark"] {
-    --bg-body: #0f172a;
-    --text-main: #dddddd;
-    --text-secondary: #9ca3af;
-    --border-color: #1f2937;
-    --nav-bg: rgba(15, 23, 42, 0.8);
-    --card-bg: #1e293b;
-    --section-bg: #1e293b;
-    --btn-bg: #1e293b;
-    --btn-hover-bg: #334155;
-    --btn-border: #475569;
-    --btn-hover-border: #64748b;
-    --shadow-color: rgba(0, 0, 0, 0.3);
+    /* Deep, rich black background */
+    --bg-body: #050505;
+    --text-main: #ffffff;
+    --text-secondary: #a1a1aa;
+    
+    /* Glassy Cards */
+    --card-bg: rgba(20, 20, 20, 0.6);
+    --section-bg: #0a0a0a;
+    
+    /* Borders & Accents */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --nav-bg: rgba(20, 20, 20, 0.6);
+    
+    /* Buttons */
+    --btn-bg: rgba(255, 255, 255, 0.05);
+    --btn-hover-bg: rgba(255, 255, 255, 0.1);
+    --btn-border: rgba(255, 255, 255, 0.1);
+    --btn-hover-border: rgba(255, 255, 255, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -93,22 +100,33 @@ body {
     background: var(--bg-body);
     color: var(--text-main);
     line-height: 1.6;
+    /* Ambient Glows - Fresh Magma */
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(245, 158, 11, 0.12), transparent 40%),
+        radial-gradient(circle at 90% 20%, rgba(236, 72, 153, 0.12), transparent 40%),
+        radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.08), transparent 40%);
+    background-attachment: fixed;
 }
 
 .nav {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1000px;
+    height: 64px;
     background: var(--nav-bg);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-color);
-    z-index: 1000;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 32px;
+    z-index: 100;
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
 }
 
 .nav-logo {
@@ -187,7 +205,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 32px 20px;
+    padding: 120px 32px 20px;
 }
 
 .hero {
@@ -243,6 +261,49 @@ body {
     letter-spacing: 0.5px;
 }
 
+.install-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.install-row:last-child {
+    margin-bottom: 0;
+}
+
+.install-row .code-snippet {
+    flex: 1;
+    margin: 0;
+}
+
+.copy-icon-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.copy-icon-btn:hover {
+    background: var(--btn-hover-bg);
+    color: var(--text-main);
+    border-color: var(--btn-hover-border);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.copy-icon-btn:active {
+    transform: translateY(0);
+}
+
 .code-snippet {
     background: #1a1a1a;
     color: #e5e7eb;
@@ -268,9 +329,12 @@ body {
 .demo-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 24px;
-    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -1px var(--shadow-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 .demo-card:hover {
@@ -315,9 +379,7 @@ button:active {
 }
 
 button.active {
-    background: var(--text-main);
-    color: var(--bg-body);
-    border-color: var(--text-main);
+    border-color: #3b82f6;
 }
 
 .btn-primary {
@@ -336,47 +398,63 @@ button.active {
 }
 
 .btn-success {
-    background: #10b981;
-    color: white;
-    border-color: #10b981;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.25) 100%);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    backdrop-filter: blur(4px);
 }
 
 .btn-success:hover {
-    background: #059669;
-    border-color: #059669;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.4) 100%);
+    border-color: rgba(16, 185, 129, 0.6);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 .btn-error {
-    background: #ef4444;
-    color: white;
-    border-color: #ef4444;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.25) 100%);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    backdrop-filter: blur(4px);
 }
 
 .btn-error:hover {
-    background: #dc2626;
-    border-color: #dc2626;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(239, 68, 68, 0.4) 100%);
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 .btn-warning {
-    background: #f59e0b;
-    color: white;
-    border-color: #f59e0b;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(245, 158, 11, 0.25) 100%);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    backdrop-filter: blur(4px);
 }
 
 .btn-warning:hover {
-    background: #d97706;
-    border-color: #d97706;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.4) 100%);
+    border-color: rgba(245, 158, 11, 0.6);
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 .btn-info {
-    background: #3b82f6;
-    color: white;
-    border-color: #3b82f6;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.25) 100%);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    backdrop-filter: blur(4px);
 }
 
 .btn-info:hover {
-    background: #2563eb;
-    border-color: #2563eb;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.4) 100%);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+    color: #fff;
+    transform: translateY(-1px);
 }
 
 .btn-loading {
@@ -531,6 +609,10 @@ button.active {
     font-size: 20px;
     color: var(--text-main);
     font-family: 'Angelos', sans-serif;
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .footer-brand p {

@@ -8,11 +8,10 @@ let currentCode = '';
 
 const codeExamples = {
     default: "toast('Hello World!');",
-    success: "toast.success('Success!');",
-    error: "toast.error('Error occurred!');",
-    warning: "toast.warning('Warning message!');",
-    info: "toast.info('Info message!');",
-    loading: "toast.loading('Loading...');",
+    success: "toast.success('Success!', 'Operation completed successfully.', 3000);",
+    error: "toast.error('Error!', 'Something went wrong.', 3000);",
+    warning: "toast.warning('Warning', 'Please check your input.', 3000);",
+    info: "toast.info('Info', 'Here is some useful information.', 3000);",
     customIcon: "toast('Good Job!', { icon: '👏' });",
     multiline: "toast('Multi-line\\nToast\\nMessage');",
     customStyle: "toast('Custom Style', {\n  style: 'background: #333; color: #fff;'\n});",
@@ -24,6 +23,7 @@ const codeExamples = {
     bottomCenter: "toast.config({ position: 'bottom-center' });\ntoast.success('Position: Bottom Center');",
     bottomRight: "toast.config({ position: 'bottom-right' });\ntoast.success('Position: Bottom Right');",
     promise: "const myPromise = new Promise((resolve) => {\n  setTimeout(resolve, 2000);\n});\n\ntoast.promise(myPromise, {\n  loading: 'Loading data...',\n  success: 'Data loaded successfully!',\n  error: 'Failed to load data!'\n});",
+    manual: "// Manual Control (Good for callbacks/sync-like flows)\nconst toastId = toast.loading('Starting operation...');\n\n// Simulate work\nsetTimeout(() => {\n  // Update the existing toast\n  toast.update(toastId, 'Operation Complete!', 'success');\n}, 2000);",
     toggleDirection: "isReversed = !isReversed;\ntoast.config({ reverseOrder: isReversed });\ntoast.success(isReversed ? 'Reversed' : 'Normal');",
     dismiss: "toast.dismiss(); // Dismiss all toasts"
 };
@@ -79,16 +79,16 @@ function executeToast(type) {
             toast('Hello World!');
             break;
         case 'success':
-            toast.success('Success!');
+            toast.success('Success!', 'Operation completed successfully.', 3000);
             break;
         case 'error':
-            toast.error('Error occurred!');
+            toast.error('Error!', 'Something went wrong.', 3000);
             break;
         case 'warning':
-            toast.warning('Warning message!');
+            toast.warning('Warning', 'Please check your input.', 3000);
             break;
         case 'info':
-            toast.info('Info message!');
+            toast.info('Info', 'Here is some useful information.', 3000);
             break;
         case 'loading':
             toast.loading('Loading...');
@@ -132,6 +132,9 @@ function executeToast(type) {
         case 'promise':
             testPromise();
             break;
+        case 'manual':
+            testManualUpdate();
+            break;
         case 'toggleDirection':
             toggleDirection();
             break;
@@ -153,6 +156,18 @@ function testPromise() {
     });
 }
 
+function testManualUpdate() {
+    // 1. Start loading and get the ID
+    const toastId = toast.loading('Starting operation...');
+
+    // 2. Simulate some work (e.g., a callback-based API)
+    setTimeout(() => {
+        // 3. Update the SAME toast to success
+        // Usage: toast.update(id, message, type)
+        toast.update(toastId, 'Operation Complete!', 'success');
+    }, 2000);
+}
+
 function toggleDirection() {
     isReversed = !isReversed;
     toast.config({ reverseOrder: isReversed });
@@ -160,17 +175,56 @@ function toggleDirection() {
     toast.success(isReversed ? 'New toasts will appear at bottom' : 'New toasts will appear at top');
 }
 
-function copyCode() {
+function copyCode(btn) {
     if (!currentCode) return;
     navigator.clipboard.writeText(currentCode).then(() => {
         toast.success('Code copied!');
+        
+        // Visual feedback
+        if (btn) {
+            const icon = btn.querySelector('i');
+            if (icon) {
+                const originalClass = icon.className;
+                icon.className = 'bi bi-check-lg';
+                icon.style.color = '#10b981';
+                
+                setTimeout(() => {
+                    icon.className = originalClass;
+                    icon.style.color = '';
+                }, 2000);
+            }
+        }
+    });
+}
+
+function copyInstallCode(btn) {
+    const codeSnippet = btn.previousElementSibling;
+    const code = codeSnippet.innerText;
+    
+    navigator.clipboard.writeText(code).then(() => {
+        toast.success('Copied to clipboard!');
+        
+        // Visual feedback
+        const icon = btn.querySelector('i');
+        const originalClass = icon.className;
+        
+        icon.className = 'bi bi-check-lg';
+        icon.style.color = '#10b981'; // Success green
+        
+        setTimeout(() => {
+            icon.className = originalClass;
+            icon.style.color = '';
+        }, 2000);
+    }).catch(err => {
+        toast.error('Failed to copy');
+        console.error('Copy failed', err);
     });
 }
 
 // Theme handling
 function toggleTheme() {
     const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme');
+    const currentTheme = html.getAttribute('data-theme') || 'light';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
     html.setAttribute('data-theme', newTheme);

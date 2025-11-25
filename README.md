@@ -1,151 +1,164 @@
 # 🔥 Hot Toast
 
-A lightweight, customizable toast notification library with beautiful animations.
+**Smoking hot Notifications for Vanilla JavaScript.**  
+Lightweight, customizable, and beautiful by default. Now featuring a stunning **Glassmorphism** design and smooth, direction-aware animations.
 
-## Features
+![Version](https://img.shields.io/badge/version-2.0.0-orange.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Size](https://img.shields.io/badge/size-~3kb-green.svg)
 
-- 🎨 Beautiful, smooth animations
-- 🔧 Fully customizable
-- ✨ Zero Dependencies
-- ⚡ Fast and performant
-- 🎯 Promise support
-- 🎭 Multiple positions
-- 🔄 Stackable notifications
-- ♿ Accessible
+## ✨ Features
 
-## Installation
+- 🎨 **Modern Glassmorphism UI**: Beautiful frosted glass effect with neon glows in dark mode.
+- 🚀 **Smooth Animations**: Direction-aware entrance and exit animations that feel physical and responsive.
+- 🌓 **Dark Mode Support**: Automatically adapts to system theme or can be toggled via CSS.
+- ⚡ **Zero Dependencies**: Pure Vanilla JavaScript and CSS. No jQuery, no framework required.
+- 🎯 **Flexible API**: Supports multiple argument signatures for maximum developer convenience.
+- ⏳ **Promise Support**: Built-in handling for async operations (`loading` -> `success`/`error`).
+- 🛠 **Manual Control**: Update existing toasts programmatically (great for progress bars or multi-step processes).
 
-Simply include the CSS and JavaScript files from the [GitHub repository](https://github.com/TarunPatil001/hot-toast) via jsDelivr CDN in your HTML:
+---
 
+## 📦 Installation
+
+Simply include the CSS and JavaScript files via CDN.
+
+### CDN (Recommended)
+
+Add this to your `<head>`:
 ```html
-<!-- Add to your <head> section -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.2.0/lib/toast.css">
-
-<!-- Add before closing </body> tag -->
-<script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.2.0/lib/toast.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v2.0.0/lib/toast.css">
 ```
 
-## Usage
+Add this before the closing `</body>` tag:
+```html
+<script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v2.0.0/lib/toast.js"></script>
+```
 
-### Basic Usage
+---
+
+## 🚀 Usage
+
+### Basic Toasts
 
 ```javascript
-// Default toast
+// Simple message
 toast('Hello World!');
 
-// Success toast
-toast.success('Operation successful!');
+// Success
+toast.success('Successfully saved!');
 
-// Error toast
-toast.error('Something went wrong!');
+// Error
+toast.error('Something went wrong.');
 
-// Warning toast
-toast.warning('This is a warning!');
+// Warning
+toast.warning('Check your input.');
 
-// Info toast
-toast.info('Here is some information.');
-
-// Loading toast
-toast.loading('Processing...');
+// Info
+toast.info('New update available.');
 ```
 
-### With Custom Icon
+### Flexible Arguments (New in v2.0)
+
+Hot Toast v2.0 is smart enough to understand different argument patterns:
 
 ```javascript
-toast('Good Job!', { icon: '👏' });
-```
+// 1. Message only
+toast.success('Operation successful');
 
-### With Custom Options
+// 2. Message + Duration
+toast.success('Operation successful', 2000);
 
-```javascript
-toast('Custom Toast', {
-    icon: '🎉',
-    duration: 5000,
-    style: 'background: #333; color: #fff;',
-    className: 'my-custom-class'
+// 3. Title + Message + Duration (The "Rich" Toast)
+toast.success('Saved', 'Your changes have been saved successfully.', 4000);
+
+// 4. Message + Options Object
+toast.success('Saved', { 
+    duration: 5000, 
+    icon: '💾' 
 });
 ```
 
-### Multi-line Toast
+### Async Operations (Promises)
+
+Handle loading, success, and error states automatically.
 
 ```javascript
-toast('Line 1\nLine 2\nLine 3');
-```
-
-### Promise Handling
-
-```javascript
-const myPromise = fetch('/api/data');
+const myPromise = fetch('/api/save-data');
 
 toast.promise(myPromise, {
-    loading: 'Loading...',
-    success: 'Data loaded!',
-    error: 'Failed to load data!'
+    loading: 'Saving data...',
+    success: 'Data saved successfully!',
+    error: 'Could not save data.'
 });
 ```
 
-### Dismissing Toasts
+### Manual Updates
+
+Useful for fine-grained control, like updating a loading state to success manually.
 
 ```javascript
-// Dismiss a specific toast
-const id = toast('Hello');
-toast.dismiss(id);
+const toastId = toast.loading('Processing...');
 
-// Dismiss all toasts
-toast.dismiss();
+// ... do some work ...
+
+// Update the existing toast
+toast.update(toastId, 'Process Complete!', 'success');
 ```
 
-## Configuration
+---
 
-Configure default settings for all toasts:
+## ⚙️ Configuration
+
+You can configure the global behavior of Hot Toast.
 
 ```javascript
 toast.config({
-    position: 'top-center',    // Position of toasts
-    duration: 4000,            // Duration in milliseconds
-    maxToasts: 5,              // Maximum visible toasts
-    reverseOrder: false        // Stack order (false = newest on top)
+    position: 'top-right',   // 'top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right'
+    duration: 4000,          // Default duration in ms
+    maxToasts: 5,            // Max number of toasts visible at once
+    reverseOrder: false,     // If true, new toasts appear at the bottom of the stack
+    gutter: 12               // Spacing between toasts (px)
 });
 ```
 
-### Available Positions
+---
 
-- `top-left`
-- `top-center`
-- `top-right`
-- `bottom-left`
-- `bottom-center`
-- `bottom-right`
+## 🎨 Theming & Customization
 
-## Options
+Hot Toast uses **CSS Variables**, making it incredibly easy to customize.
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `icon` | string | - | Custom emoji or icon |
-| `duration` | number | 4000 | Display duration (ms), 0 = no auto-dismiss |
-| `style` | string | - | Custom CSS styles |
-| `className` | string | - | Additional CSS classes |
+### Dark Mode
+The library automatically detects the user's system preference. To force a theme, add `data-theme="dark"` or `data-theme="light"` to your `<html>` tag.
 
-## API
+### Customizing Colors (CSS)
+Override these variables in your own CSS to match your brand:
 
-### Methods
+```css
+:root {
+    /* Light Mode Colors */
+    --toast-bg: rgba(255, 255, 255, 0.8);
+    --toast-text: #1a1a1a;
+}
 
-- `toast(message, options)` - Create a default toast
-- `toast.success(message, options)` - Create a success toast
-- `toast.error(message, options)` - Create an error toast
-- `toast.loading(message, options)` - Create a loading toast
-- `toast.promise(promise, messages, options)` - Handle promise states
-- `toast.dismiss(id?)` - Dismiss toast(s)
-- `toast.config(options)` - Update configuration
+[data-theme="dark"] {
+    /* Dark Mode Colors */
+    --toast-bg: rgba(0, 0, 0, 0.8);
+    --toast-text: #ffffff;
+    --glow-color: #00ff9d; /* The neon glow color */
+}
+```
 
-## Browser Support
+---
 
-Works in all modern browsers that support ES5 and CSS animations.
+## 📱 Browser Support
 
-## License
+Works in all modern browsers (Chrome, Firefox, Safari, Edge).
+- Uses `requestAnimationFrame` for buttery smooth animations.
+- Uses `backdrop-filter` for the glassmorphism effect (falls back gracefully on older browsers).
 
-MIT License
+---
 
-## Credits
+## 📄 License
 
-Inspired by react-hot-toast
+MIT License © 2025 [Tarun Patil](https://github.com/TarunPatil001)

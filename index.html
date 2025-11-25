@@ -44,20 +44,34 @@
 
     <div class="container">
         <div class="hero">
-            <div class="version-badge">Latest: v1.2.0</div>
+            <div class="version-badge">Latest: v2.0.0</div>
             <h1 class="text-capitalize"><i class="bi bi-fire"></i> Hot Toast</h1>
             <p class="subtitle">Smoking hot Notifications for Vanilla JavaScript</p>
             <button
-                onclick="if(typeof toast !== 'undefined') { toast('Test Toast!'); } else { alert('Toast not loaded'); }"
+                onclick="if(typeof toast !== 'undefined') { toast('Test Toast! v' + toast.version); } else { alert('Toast not loaded'); }"
                 class="btn-primary">Test
                 Toast</button>
         </div>
 
         <div class="installation">
-            <div class="installation-title">Installation</div>
-            <div class="code-snippet">
-                <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.2.0/lib/toast.css"&gt;</code><br>
-                <code>&lt;script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v1.2.0/lib/toast.js"&gt;&lt;/script&gt;</code>
+            <div class="installation-title">CDN Installation</div>
+            
+            <div class="install-row">
+                <div class="code-snippet">
+                    <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v2.0.0/lib/toast.css"&gt;</code>
+                </div>
+                <button class="copy-icon-btn" onclick="copyInstallCode(this)" aria-label="Copy CSS link">
+                    <i class="bi bi-clipboard"></i>
+                </button>
+            </div>
+
+            <div class="install-row">
+                <div class="code-snippet">
+                    <code>&lt;script src="https://cdn.jsdelivr.net/gh/TarunPatil001/hot-toast@v2.0.0/lib/toast.js"&gt;&lt;/script&gt;</code>
+                </div>
+                <button class="copy-icon-btn" onclick="copyInstallCode(this)" aria-label="Copy JS script">
+                    <i class="bi bi-clipboard"></i>
+                </button>
             </div>
         </div>
 
@@ -96,9 +110,10 @@
             </div>
 
             <div class="demo-card">
-                <h3>Promise Handling</h3>
+                <h3>Async & Manual Control</h3>
                 <div class="btn-group">
-                    <button onclick="showCodeAndRun(this, 'promise')">🔄 Test Promise</button>
+                    <button onclick="showCodeAndRun(this, 'promise')">⏳ Promise</button>
+                    <button onclick="showCodeAndRun(this, 'manual')">🛠️ Manual Update</button>
                 </div>
             </div>
 
@@ -115,7 +130,9 @@
         <div class="code-display">
             <div class="code-display-header">
                 <div class="code-display-title">Code Example</div>
-                <button class="copy-btn" onclick="copyCode()">📋 Copy</button>
+                <button class="copy-icon-btn" onclick="copyCode(this)" aria-label="Copy Code">
+                    <i class="bi bi-clipboard"></i>
+                </button>
             </div>
             <div class="code-display-content" id="codeContent">
                 <div class="placeholder-text">Click any button above to see the code</div>
@@ -158,7 +175,7 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <span class="toast-icon"><i class="bi bi-fire"></i></span>
+                        <span><i class="bi bi-fire"></i></span>
                         <span>Hot Toast</span>
                     </div>
                     <p>The lightweight, beautiful toast notification library for the modern web.</p>
@@ -210,57 +227,65 @@
         const counterRef = ref(db, 'visitors');
 
         // Listen for toast creation events and increment counter
-        window.addEventListener('hot-toast:created', () => {
+        window.addEventListener('hot-toast:created', (e) => {
+            console.log('Toast created event received', e.detail);
             runTransaction(counterRef, (currentValue) => {
                 return (currentValue || 0) + 1;
+            }).then(() => {
+                console.log('Counter incremented successfully');
+            }).catch((err) => {
+                console.error('Failed to increment counter:', err);
             });
         });
 
         // Listen for updates in real-time
         onValue(counterRef, (snapshot) => {
             const count = snapshot.val() || 0;
+            console.log('New visitor count:', count);
             displayCounter(count);
         });
 
+        let isInitialized = false;
+
         function displayCounter(count) {
             const counterElement = document.getElementById('visitor-count');
-            // Pad with zeros to make it 6 digits (e.g., 001247)
             const digits = count.toString().padStart(8, '0').split('');
-            counterElement.innerHTML = '';
             
+            // Build DOM only once
+            if (!isInitialized) {
+                counterElement.innerHTML = '';
+                digits.forEach(() => {
+                    const digitBox = document.createElement('div');
+                    digitBox.className = 'digit-box';
+                    
+                    const digitStrip = document.createElement('div');
+                    digitStrip.className = 'digit-strip';
+                    
+                    // Create numbers 0-9
+                    for (let i = 0; i <= 9; i++) {
+                        const number = document.createElement('div');
+                        number.className = 'digit-number';
+                        number.textContent = i;
+                        digitStrip.appendChild(number);
+                    }
+                    
+                    digitBox.appendChild(digitStrip);
+                    counterElement.appendChild(digitBox);
+                });
+                isInitialized = true;
+            }
+            
+            // Update positions
+            const strips = counterElement.querySelectorAll('.digit-strip');
             digits.forEach((digit, index) => {
-                const digitBox = document.createElement('div');
-                digitBox.className = 'digit-box';
-                
-                const digitStrip = document.createElement('div');
-                digitStrip.className = 'digit-strip';
-                
-                // Create numbers 0-9
-                for (let i = 0; i <= 9; i++) {
-                    const number = document.createElement('div');
-                    number.className = 'digit-number';
-                    number.textContent = i;
-                    digitStrip.appendChild(number);
-                }
-                
-                digitBox.appendChild(digitStrip);
-                counterElement.appendChild(digitBox);
-                
+                const strip = strips[index];
                 const targetDigit = parseInt(digit);
                 
-                // Initial position to ensure animation even for 0
-                // We start at 9 (bottom) so 0 has a long scroll
-                // Exception: If target is 9, we start at 0 so it scrolls too
-                const initialY = targetDigit === 9 ? 0 : -576;
-                digitStrip.style.transform = `translateY(${initialY}px)`;
-                
-                // Trigger animation after a small delay
-                setTimeout(() => {
-                    // Randomize duration slightly for organic feel
-                    const duration = 2 + (index * 0.2);
-                    digitStrip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.9, 0.3, 1)`;
-                    digitStrip.style.transform = `translateY(-${targetDigit * 64}px)`;
-                }, 100);
+                // Add transition for smooth sliding
+                // Stagger the animation slightly for each digit
+                const duration = 1.5 + (index * 0.1);
+                strip.style.transition = `transform ${duration}s cubic-bezier(0.15, 0.9, 0.3, 1)`;
+                strip.style.transform = `translateY(-${targetDigit * 64}px)`;
             });
         }
     </script>
