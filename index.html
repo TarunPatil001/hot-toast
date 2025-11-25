@@ -4,9 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hot Toast - Smoking hot Notifications</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Hot Toast - Lightweight Vanilla JavaScript Notification Library</title>
+    <meta name="title" content="Hot Toast - Lightweight Vanilla JavaScript Notification Library">
+    <meta name="description" content="A lightweight, dependency-free vanilla JavaScript library for beautiful toast notifications. Features glassmorphism design, promise support, and easy customization.">
+    <meta name="keywords" content="javascript toast, notification library, vanilla js toast, alert library, web notifications, glassmorphism ui, hot toast, popup library, javascript library">
+    <meta name="author" content="Tarun Patil">
+    <meta name="robots" content="index, follow">
 
-    <link rel="icon" href="assets/icons/favicon.ico" type="image/png">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tarunpatil001.github.io/hot-toast/">
+    <meta property="og:title" content="Hot Toast - Lightweight Vanilla JavaScript Notification Library">
+    <meta property="og:description" content="A lightweight, dependency-free vanilla JavaScript library for beautiful toast notifications. Features glassmorphism design, promise support, and easy customization.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://tarunpatil001.github.io/hot-toast/">
+    <meta property="twitter:title" content="Hot Toast - Lightweight Vanilla JavaScript Notification Library">
+    <meta property="twitter:description" content="A lightweight, dependency-free vanilla JavaScript library for beautiful toast notifications. Features glassmorphism design, promise support, and easy customization.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://tarunpatil001.github.io/hot-toast/">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Hot Toast",
+      "operatingSystem": "Any",
+      "applicationCategory": "DeveloperApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A lightweight, dependency-free vanilla JavaScript library for beautiful toast notifications.",
+      "author": {
+        "@type": "Person",
+        "name": "Tarun Patil",
+        "url": "https://github.com/TarunPatil001"
+      }
+    }
+    </script>
+
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +80,7 @@
             <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
                 <i class="bi bi-moon-stars"></i>
             </button>
-            <a href="https://github.com/TarunPatil001/hot-toast" target="_blank" class="github-btn">
+            <a href="https://github.com/TarunPatil001/hot-toast" target="_blank" rel="noopener noreferrer" class="github-btn">
                 <i class="bi bi-github"></i> GitHub
             </a>
         </div>
@@ -54,7 +98,7 @@
         </div>
 
         <div class="installation">
-            <div class="installation-title">CDN Installation</div>
+            <h2 class="installation-title">CDN Installation</h2>
             
             <div class="install-row">
                 <div class="code-snippet">
@@ -77,7 +121,7 @@
 
         <div class="demo-grid">
             <div class="demo-card">
-                <h3>Basic Types</h3>
+                <h2>Basic Types</h2>
                 <div class="btn-group">
                     <button onclick="showCodeAndRun(this, 'default')">Default</button>
                     <button class="btn-success" onclick="showCodeAndRun(this, 'success')">✓ Success</button>
@@ -88,7 +132,7 @@
             </div>
 
             <div class="demo-card">
-                <h3>Custom Options</h3>
+                <h2>Custom Options</h2>
                 <div class="btn-group">
                     <button onclick="showCodeAndRun(this, 'customIcon')">👏 Custom Icon</button>
                     <button onclick="showCodeAndRun(this, 'multiline')">Multi-line Toast</button>
@@ -98,7 +142,7 @@
             </div>
 
             <div class="demo-card">
-                <h3>Position</h3>
+                <h2>Position</h2>
                 <div class="btn-group">
                     <button onclick="showCodeAndRun(this, 'topLeft')">⬉ Top Left</button>
                     <button onclick="showCodeAndRun(this, 'topCenter')">⬆ Top Center</button>
@@ -110,7 +154,7 @@
             </div>
 
             <div class="demo-card">
-                <h3>Async & Manual Control</h3>
+                <h2>Async & Manual Control</h2>
                 <div class="btn-group">
                     <button onclick="showCodeAndRun(this, 'promise')">⏳ Promise</button>
                     <button onclick="showCodeAndRun(this, 'manual')">🛠️ Manual Update</button>
@@ -118,7 +162,7 @@
             </div>
 
             <div class="demo-card">
-                <h3>Configuration</h3>
+                <h2>Configuration</h2>
                 <div class="btn-group">
                     <button onclick="showCodeAndRun(this, 'toggleDirection')">⇅ Toggle Direction (<span
                             id="directionStatus">Normal</span>)</button>
@@ -142,22 +186,22 @@
         <div class="features">
             <div class="feature">
                 <div class="feature-icon">🎨</div>
-                <h4>Beautiful</h4>
+                <h3>Beautiful</h3>
                 <p>Smooth animations and modern design out of the box</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">✨</div>
-                <h4>Zero Dependencies</h4>
+                <h3>Zero Dependencies</h3>
                 <p>Pure JavaScript with no external dependencies</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">⚡</div>
-                <h4>Fast & Lightweight</h4>
+                <h3>Fast & Lightweight</h3>
                 <p>Optimized for performance with minimal footprint</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">🎯</div>
-                <h4>Promise Support</h4>
+                <h3>Promise Support</h3>
                 <p>Handle async operations with ease</p>
             </div>
         </div>
@@ -183,19 +227,19 @@
                 <div class="footer-links">
                     <div class="footer-column">
                         <h4>Project</h4>
-                        <a href="https://github.com/TarunPatil001/hot-toast" target="_blank">GitHub</a>
-                        <a href="https://github.com/TarunPatil001/hot-toast/issues" target="_blank">Issues</a>
-                        <a href="https://github.com/TarunPatil001/hot-toast/releases" target="_blank">Releases</a>
+                        <a href="https://github.com/TarunPatil001/hot-toast" target="_blank" rel="noopener noreferrer">GitHub</a>
+                        <a href="https://github.com/TarunPatil001/hot-toast/issues" target="_blank" rel="noopener noreferrer">Issues</a>
+                        <a href="https://github.com/TarunPatil001/hot-toast/releases" target="_blank" rel="noopener noreferrer">Releases</a>
                     </div>
                     <div class="footer-column">
                         <h4>Connect</h4>
-                        <a href="https://github.com/TarunPatil001" target="_blank">Profile</a>
+                        <a href="https://github.com/TarunPatil001" target="_blank" rel="noopener noreferrer">Profile</a>
                     </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Hot Toast. MIT License.</p>
-                <p>Made with ❤️ by <a href="https://github.com/TarunPatil001" target="_blank">Tarun Patil</a></p>
+                <p>Made with ❤️ by <a href="https://github.com/TarunPatil001" target="_blank" rel="noopener noreferrer">Tarun Patil</a></p>
             </div>
         </footer>
     </div>
