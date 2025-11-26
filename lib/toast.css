@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
 :root {
     /* Light Theme (Default to match page) */
     --toast-card-bg: linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96));
