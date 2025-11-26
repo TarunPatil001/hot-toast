@@ -9,7 +9,7 @@
     --toast-icon-border: rgba(0, 0, 0, 0.1);
     --toast-title-gradient-start: #1a1a1a;
     --toast-title-gradient-end: #4a4a4a;
-    --toast-border: #ffffff;
+    --toast-border: rgb(210, 210, 210);
 }
 
 [data-theme="dark"] {
@@ -21,7 +21,7 @@
     --toast-icon-border: rgba(255, 255, 255, 0.1);
     --toast-title-gradient-start: #fff;
     --toast-title-gradient-end: #ccc;
-    --toast-border: rgba(255, 255, 255, 0.1);
+    --toast-border: rgb(61, 61, 61);
 }
 
 .toast-container {
@@ -32,6 +32,7 @@
     z-index: 1000;
     perspective: 1000px;
     pointer-events: none; /* Allow clicking through container */
+    
 }
 
 /* Wrapper for smooth push animations */
@@ -44,6 +45,8 @@
     margin-bottom: 0;
     /* overflow: hidden; Removed to allow shadow to be visible immediately */
     flex-shrink: 0;
+
+    
 }
 
 .toast-wrapper.visible {
@@ -84,31 +87,39 @@
     width: 320px;
     padding: 12px;
     gap: 12px;
-    
+
     /* Layout */
     display: flex;
     align-items: center;
     position: relative;
     z-index: 1;
-    /* overflow: hidden;  Removed to allow glow? No, glow is inside. */
-    overflow: hidden;
+    overflow: hidden; /* Glow stays inside */
+
     pointer-events: auto; /* Re-enable clicks on toasts */
-    
+
     /* Shape */
-    border-radius: 14px;
-    border: 1px solid var(--toast-border);
-    
+    border-radius: 11px;
+    background-color: var(--toast-border);
+
     /* Font */
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    
-    /* Animation fallback */
+
+    /* Animation fallback shadow */
     box-shadow: 0 15px 35px -5px rgba(0,0,0,0.2);
-    
-    /* Smooth Entrance/Exit Transition */
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-    
-    /* Removed internal animation, wrapper handles entry */
+
+    /* Smooth entrance/exit transition */
+    transition:
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.6s ease;
+
+    /* Vendor-prefixed border-radius (old browser fallback) */
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    -ms-border-radius: 11px;
+    -o-border-radius: 11px;
 }
+
+
 
 .toast-notification:hover {
     transform: translateX(-5px);
@@ -132,19 +143,39 @@
 .toast-notification::after {
     content: '';
     position: absolute;
-    inset: 1.5px;
+    inset: 2px;
     background: transparent;
-    border-radius: 13px;
+    border-radius: 9px;
     z-index: -1;
-    /* Subtle Noise Texture + Holographic Sheen + Card BG */
-    background-image: 
-        linear-gradient(110deg, transparent 25%, rgba(255, 255, 255, 0.05) 45%, transparent 55%),
-        url("data:image/svg+xml,%3CsvgviewBox='0 0 200 200'xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E"),
+
+    /* SubtleNoiseTexture + HolographicSheen + CardBG */
+    background-image:
+        linear-gradient(
+            110deg,
+            transparent 25%,
+            rgba(255, 255, 255, 0.05) 45%,
+            transparent 55%
+        ),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07' /%3E%3C/svg%3E"),
         var(--toast-card-bg);
-    background-size: 200% 100%, auto, 100% 100%;
-    animation: sheen 4s linear infinite;
-    -webkit-animation: sheen 4s linear infinite;
+
+    background-size:
+        200% 100%,
+        auto,
+        100% 100%;
+
+    /* Optional floating sheen animation */
+    animation: holoSheen 6s ease-in-out infinite;
+
+    /* Vendor-prefixed border-radius (old browser fallback) */
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    -ms-border-radius: 9px;
+    -o-border-radius: 9px;
 }
+
+
+
 
 /* Icon Design: Plain Glassmorphism */
 .toast-icon-wrapper {
